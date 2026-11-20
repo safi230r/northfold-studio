@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Petal &amp; Stem</title>
+<meta name="description" content="Concept site by Northfold Studio for Petal &amp; Stem, a fictional florist on Upper Street, Islington, London N1.">
+<meta name="theme-color" content="#f7f2ea">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..600&family=Jost:wght@300..600&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<style>
+/* Petal & Stem — blush, sage & cream. Everything is visible by default;
+   JS only hides an element at the instant its reveal plays (with a timer that forces the end state). */
+:root{
+  --cream:#f7f2ea;--paper:#fffcf6;--blush:#f4e2dd;--blush-2:#ebc8c3;--rose:#c98d93;--rose-d:#8c4b53;
+  --sage-l:#e5eadc;--sage-d:#4f5f48;--ink:#2a3526;--ink-2:#465042;--muted:#5d6658;
+  --line:rgba(42,53,38,.12);--line-2:rgba(42,53,38,.26);
+  --serif:"Bodoni Moda","Bodoni 72",Didot,"Times New Roman",Georgia,serif;
+  --sans:"Jost","Avenir Next","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  --g:clamp(16px,4.6vw,64px);--ease:cubic-bezier(.16,1,.3,1);--r:26px;color-scheme:light}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{margin:0;background:var(--cream);color:var(--ink);font:400 16.5px/1.65 var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+img,svg,canvas{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit;color:inherit}
+em{font-style:italic}
+:focus-visible{outline:2px solid var(--rose-d);outline-offset:3px}
+::selection{background:var(--blush-2);color:var(--ink)}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;padding:0;border:0}
+.skip{position:absolute;left:16px;top:-80px;z-index:100;padding:10px 18px;border-radius:999px;background:var(--ink);color:var(--paper)}
+.skip:focus{top:12px}
+.defs{position:absolute;width:0;height:0;overflow:hidden}
+.wrap{max-width:calc(1240px + var(--g)*2);margin-inline:auto;padding-inline:var(--g)}
+
+.concept{position:relative;z-index:70;background:var(--ink);color:#eef0e6;font-size:12px;line-height:1.4;text-align:center;padding:9px 16px;letter-spacing:.05em}
+.concept a{color:#f4c9cf;text-decoration:underline;text-underline-offset:2px}
+
+/* nav — frosted pill */
+.navbar{position:sticky;top:0;z-index:60;height:0}
+.nav{position:relative;top:14px;margin-inline:auto;width:min(1180px,calc(100% - 32px));display:flex;align-items:center;justify-content:space-between;gap:20px;padding:7px 7px 7px 20px;border-radius:999px;background:rgba(255,252,246,.34);-webkit-backdrop-filter:blur(20px) saturate(1.5);backdrop-filter:blur(20px) saturate(1.5);border:1px solid rgba(255,255,255,.6);box-shadow:0 12px 40px -20px rgba(42,53,38,.35),inset 0 1px 0 rgba(255,255,255,.7);transition:background .5s,box-shadow .5s}
+.nav.scrolled{background:rgba(255,252,246,.8);box-shadow:0 18px 44px -22px rgba(42,53,38,.4),inset 0 1px 0 #fff}
+.logo{display:flex;align-items:center;gap:9px;font:500 21px/1 var(--serif);letter-spacing:-.01em;white-space:nowrap}
+.logo em{color:var(--rose-d)}
+.logo svg{width:26px;height:26px;color:var(--rose)}
+.links{display:flex;gap:clamp(18px,2.4vw,34px);font-size:14px;color:var(--ink-2)}
+.links a{position:relative;padding-block:6px}
+.links a::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease)}
+.links a:hover::after{transform:scaleX(1);transform-origin:left}
+
+/* buttons */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:52px;padding:0 24px;border-radius:999px;background:var(--ink);color:var(--paper);font:500 15px/1 var(--sans);letter-spacing:.02em;border:1px solid transparent;cursor:pointer;overflow:hidden;isolation:isolate;white-space:nowrap;box-shadow:0 14px 30px -18px rgba(42,53,38,.7);transition:color .5s var(--ease)}
+.btn::before{content:"";position:absolute;inset:-1px;z-index:-1;border-radius:inherit;background:var(--rose-d);transform:translateY(102%);transition:transform .7s var(--ease)}
+.btn:hover::before{transform:none}
+.btn .ar{width:15px;height:15px;transition:transform .6s var(--ease)}
+.btn:hover .ar{transform:translateX(4px)}
+.btn.glass{background:rgba(255,252,246,.5);color:var(--ink);border-color:rgba(255,255,255,.75);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:none}
+.btn.glass::before{background:var(--paper)}
+.btn.line{background:transparent;color:var(--ink);border-color:var(--line-2);box-shadow:none}
+.btn.line::before{background:var(--ink)}
+.btn.line:hover{color:var(--paper)}
+.btn.sm{min-height:44px;padding:0 18px;font-size:14px}
+
+/* hero */
+.hero{position:relative;isolation:isolate;display:flex;flex-direction:column;min-height:max(660px,calc(100svh - 34px));overflow:hidden;background:linear-gradient(90deg,#979d83,#a2a78d 26%,#bec0aa 50%,#d5d3be 72%,#f4ecd9)}
+.hero-media{position:absolute;left:0;right:0;top:7%;bottom:0;z-index:-1;-webkit-mask-image:linear-gradient(transparent,#000 14%);mask-image:linear-gradient(transparent,#000 14%)}
+.hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 60%;transform-origin:50% 62%}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:34%;pointer-events:none;background:linear-gradient(rgba(247,242,234,0),rgba(247,242,234,.72) 70%,var(--cream))}
+#petals{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.hero-top{position:relative;z-index:2;text-align:center;padding:clamp(104px,15vh,150px) var(--g) 0}
+.chip{display:inline-flex;align-items:center;gap:10px;margin:0;padding:8px 16px;border-radius:999px;background:rgba(255,252,246,.42);border:1px solid rgba(255,255,255,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font:500 11.5px/1.3 var(--sans);letter-spacing:.2em;text-transform:uppercase}
+.chip i{width:6px;height:6px;border-radius:50%;background:var(--rose-d)}
+.hero h1{margin:18px 0 0;font:400 clamp(36px,6.3vw,102px)/.98 var(--serif);letter-spacing:-.025em}
+.hero h1 .ln{display:block;overflow:hidden;padding:0 .06em .1em;margin-bottom:-.1em}
+.hero h1 .ln>span{display:block}
+.hero h1 em{color:var(--rose-d)}
+.hero-bot{position:relative;z-index:2;margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:32px;padding:40px var(--g) clamp(28px,5vh,52px)}
+.pitch{max-width:30em;margin:0 0 22px;color:var(--ink-2);font-size:clamp(15.5px,1.2vw,17.5px)}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.cutcard{width:min(330px,100%);padding:20px 22px;border-radius:22px;background:rgba(255,252,246,.55);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);border:1px solid rgba(255,255,255,.7);box-shadow:0 24px 50px -30px rgba(42,53,38,.45);font-size:15px}
+.cutcard p{margin:0}
+.ck{display:flex;align-items:center;gap:10px;margin-bottom:8px!important;font:500 11.5px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--sage-d)}
+.pulse{width:8px;height:8px;border-radius:50%;background:#6f8a5f;box-shadow:0 0 0 0 rgba(111,138,95,.5)}
+.motion .pulse{animation:pulse 2.4s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(111,138,95,0)}100%{box-shadow:0 0 0 0 rgba(111,138,95,0)}}
+.tl{display:inline-block;margin-top:10px;font-size:14px;font-weight:500;border-bottom:1px solid var(--line-2)}
+
+/* marquee */
+.marquee{overflow:hidden;padding:clamp(22px,3vw,34px) 0;border-bottom:1px solid var(--line);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.mq-track{display:flex;width:max-content}
+.mq-g{display:flex;align-items:center;flex:none}
+.mq-g span{padding-inline:clamp(18px,2.4vw,36px);font:400 clamp(30px,4.4vw,64px)/1.15 var(--serif);letter-spacing:-.02em;white-space:nowrap;color:var(--ink-2)}
+.mq-g span:nth-of-type(odd){font-style:italic;color:var(--rose-d)}
+.mq-g i{flex:none;width:7px;height:7px;border-radius:50%;background:var(--rose)}
+.motion .mq-track{animation:mq 100s linear infinite}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* shared */
+.sec{padding-block:clamp(88px,12vw,160px)}
+.eyebrow{display:inline-flex;align-items:center;gap:12px;margin:0;font:500 12px/1.3 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--sage-d)}
+.eyebrow::before{content:"";width:24px;height:1px;background:currentColor}
+h2{margin:16px 0 0;font:400 clamp(38px,5.4vw,78px)/1.02 var(--serif);letter-spacing:-.025em;text-wrap:balance}
+h2 em{color:var(--rose-d)}
+.lede{margin:0;color:var(--ink-2);font-size:clamp(16px,1.25vw,18px);max-width:34em}
+.head{display:grid;gap:20px;margin-bottom:clamp(40px,5vw,72px)}
+@media (min-width:900px){.head{grid-template-columns:1.3fr 1fr;align-items:end;gap:64px}}
+.sw{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .08em .12em 0;margin:0 -.08em -.12em 0}
+.si{display:inline-block}
+.panel{margin-inline:clamp(8px,1.4vw,20px);border-radius:clamp(28px,4.5vw,64px)}
+
+/* shop */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:clamp(18px,2.2vw,30px)}
+.card{position:relative;display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:10px 10px 22px;box-shadow:0 40px 70px -50px rgba(70,55,45,.45)}
+.ph{position:relative;aspect-ratio:4/5;border-radius:18px;overflow:hidden;background:#c9cdb8}
+.ph>i{position:absolute;inset:0;background:url(img/petal-hero.jpg) var(--x) var(--y)/var(--s) auto no-repeat}
+.ph.ill{background:var(--bg)}
+.ph>svg{position:absolute;inset:0;width:100%;height:100%}
+.tag{position:absolute;z-index:1;top:14px;left:14px;margin:0;padding:6px 12px;border-radius:999px;background:rgba(255,252,246,.66);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase}
+.cb{display:flex;flex-direction:column;flex:1;padding:20px 12px 0}
+.cb h3{margin:0;font:400 30px/1.05 var(--serif);letter-spacing:-.015em}
+.desc{margin:8px 0 0;color:var(--muted);font-size:15px;line-height:1.55}
+.seg{display:flex;gap:4px;margin:18px 0 0;padding:4px;border:1px solid var(--line);border-radius:999px;background:var(--cream);min-width:0}
+.seg label{position:relative;flex:1}
+.seg input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.seg span{display:block;padding:9px 8px;border-radius:999px;text-align:center;font-size:13.5px;font-weight:500;color:var(--muted);transition:background .45s var(--ease),color .45s}
+.seg input:checked+span{background:var(--ink);color:var(--paper)}
+.seg input:focus-visible+span{outline:2px solid var(--rose-d);outline-offset:2px}
+.buy{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:auto;padding-top:20px}
+.price{margin:0;font:400 34px/1 var(--serif)}
+.price small{display:block;margin-bottom:7px;font:500 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.price b{display:inline-block;font-weight:400}
+.bump{animation:bump .7s var(--ease)}
+@keyframes bump{from{transform:translateY(35%)}}
+.cmsg,.fmsg{margin:12px 0 0;font-size:13.5px;color:var(--rose-d)}
+.cmsg:empty,.fmsg:empty{display:none}
+.sizes{margin:28px 0 0;color:var(--muted);font-size:14.5px;text-align:center}
+.gsap .card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(circle at var(--gx,50%) var(--gy,0%),rgba(255,255,255,.55),rgba(255,255,255,0) 50%);opacity:0;transition:opacity .6s;mix-blend-mode:soft-light}
+.gsap .card:hover::after{opacity:1}
+
+/* delivery */
+.two{display:grid;gap:clamp(40px,6vw,96px)}
+@media (min-width:900px){.two{grid-template-columns:1fr 1fr;align-items:center}}
+.facts{list-style:none;padding:0;margin:36px 0 0;border-top:1px solid var(--line)}
+.facts li{display:flex;gap:20px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line)}
+.facts b{flex:none;min-width:88px;font:400 28px/1 var(--serif)}
+.facts span{color:var(--ink-2);font-size:15.5px}
+.checker{padding:clamp(24px,3.4vw,44px);border-radius:32px;background:linear-gradient(150deg,var(--blush),var(--sage-l))}
+.checker label{display:block;margin-bottom:16px;font:400 30px/1.1 var(--serif)}
+.cut{display:flex;gap:12px;align-items:center;margin:0 0 26px;padding:12px 16px;border-radius:16px;background:rgba(255,252,246,.65);font-size:14.5px}
+.row{display:flex;gap:8px}
+.in{width:100%;min-width:0;min-height:52px;padding:12px 20px;border-radius:999px;border:1px solid var(--line-2);background:rgba(255,255,255,.72);font-size:16px}
+.in::placeholder{color:#8a9183}
+.pc-out{margin:16px 0 0;padding:14px 18px;border-radius:18px;background:rgba(255,255,255,.7);font-size:15px}
+.pc-out:empty{display:none}
+.pc-out b{display:block;margin-bottom:6px;font:500 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--sage-d)}
+.note{margin:16px 0 0;font-size:13px;color:var(--muted)}
+.times{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:24px 0 0;padding-top:20px;border-top:1px solid var(--line-2)}
+.times div{font-size:13px;color:var(--muted)}
+.times b{display:block;font:400 20px/1.2 var(--serif);color:var(--ink)}
+
+/* subscriptions */
+.subs{background:var(--sage-l)}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px}
+.plan{position:relative;display:flex;flex-direction:column;padding:clamp(26px,3vw,38px);border-radius:var(--r);background:var(--paper);border:1px solid var(--line)}
+.plan.ft{background:var(--sage-d);color:var(--paper);border-color:transparent}
+.pn{margin:0;font:italic 400 30px/1 var(--serif)}
+.badge{position:absolute;top:24px;right:24px;padding:6px 12px;border-radius:999px;background:var(--blush);color:var(--rose-d);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase}
+.pp{margin:24px 0 0;font:400 58px/1 var(--serif)}
+.pp b{font-weight:400}
+.per{display:block;margin-top:10px;font:400 13.5px/1.3 var(--sans);color:var(--muted)}
+.pd{margin:16px 0 0;color:var(--ink-2)}
+.plan ul{list-style:none;display:grid;gap:10px;margin:22px 0 30px;padding:22px 0 0;border-top:1px solid var(--line);font-size:15px}
+.plan li{display:flex;gap:12px}
+.plan li::before{content:"";flex:none;width:6px;height:6px;margin-top:.65em;border-radius:50%;background:var(--rose)}
+.plan .btn{margin-top:auto}
+.plan.ft .per,.plan.ft .pd,.plan.ft li{color:#e4e9dc}
+.plan.ft ul{border-color:rgba(255,255,255,.18)}
+.plan.ft .btn{background:var(--paper);color:var(--ink)}
+.plan.ft .btn::before{background:var(--blush-2)}
+.freq{max-width:290px;margin-top:22px;background:var(--paper)}
+#planMsg{text-align:center;margin-top:22px}
+
+/* weddings */
+.wed{display:grid;gap:clamp(36px,5vw,80px)}
+@media (min-width:900px){.wed{grid-template-columns:.95fr 1.05fr;align-items:start}.wimg{position:sticky;top:100px}}
+.wimg{position:relative;aspect-ratio:4/5;margin:0;border-radius:clamp(24px,3vw,40px);overflow:hidden;background:#cfd2bd}
+.wimg i{position:absolute;left:0;right:0;top:-8%;height:116%;background:url(img/petal-hero.jpg) 71% 60%/295% auto no-repeat}
+.wimg figcaption{position:absolute;left:16px;right:16px;bottom:16px;padding:12px 18px;border-radius:999px;background:rgba(255,252,246,.6);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);font-size:14px;text-align:center}
+.prices{list-style:none;margin:32px 0 0;padding:0;border-top:1px solid var(--line)}
+.prices li{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:15px 0;border-bottom:1px solid var(--line)}
+.prices b{font:400 21px/1.2 var(--serif);white-space:nowrap}
+.small{margin:18px 0 0;font-size:14.5px;color:var(--muted)}
+.enq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:36px;padding:clamp(22px,3vw,34px);border-radius:var(--r);background:var(--paper);border:1px solid var(--line)}
+.enq h3{grid-column:1/-1;margin:0 0 4px;font:400 28px/1.1 var(--serif)}
+.enq label{display:grid;gap:6px;font-size:13px;font-weight:500;color:var(--ink-2)}
+.enq .in{border-radius:14px;padding:12px 16px}
+.enq .full,.enq .fmsg{grid-column:1/-1}
+@media (max-width:560px){.enq{grid-template-columns:minmax(0,1fr)}}
+
+/* visit */
+.visit{background:var(--blush)}
+.addr{margin:26px 0 0;font:400 clamp(24px,2.4vw,32px)/1.3 var(--serif)}
+.contact{display:flex;flex-wrap:wrap;gap:10px 28px;margin:22px 0 0}
+.contact a{border-bottom:1px solid var(--line-2)}
+.status{display:inline-flex;align-items:center;gap:10px;margin:26px 0 0;padding:8px 16px;border-radius:999px;background:var(--paper);border:1px solid var(--line);font-size:14px}
+.status i{width:8px;height:8px;border-radius:50%;background:#6f8a5f}
+.status.closed i{background:var(--rose)}
+.hcard{padding:clamp(24px,3.4vw,44px);border-radius:32px;background:var(--paper)}
+.hcard h3{margin:0 0 10px;font:italic 400 30px/1.1 var(--serif)}
+.hrs{list-style:none;margin:0 0 26px;padding:0}
+.hrs li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.hrs li span:last-child{font:400 19px/1.3 var(--serif);text-align:right}
+
+/* footer */
+.foot{padding:clamp(70px,9vw,120px) 0 28px;overflow:hidden}
+.fgrid{display:grid;gap:32px;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))}
+.fgrid p{margin:12px 0 0;color:var(--ink-2);font-size:15px}
+.flinks{display:grid;gap:4px}
+.wordmark{margin:clamp(48px,7vw,96px) 0 0;text-align:center;font:400 clamp(50px,14vw,224px)/.95 var(--serif);letter-spacing:-.04em;white-space:nowrap}
+.wordmark em{color:var(--rose)}
+.fbar{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;margin-top:28px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.fbar a{text-decoration:underline;text-underline-offset:2px}
+
+@media (max-width:900px){.links{display:none}}
+@media (max-width:760px){
+  .hero{min-height:0;background:linear-gradient(180deg,#b3b79e,#c3c4ad 45%,#e9e2d0 80%,var(--cream))}
+  .hero-media{position:relative;inset:auto;order:1;height:min(112vw,520px);margin:-30px 0 -80px;-webkit-mask-image:linear-gradient(transparent,#000 16%,#000 76%,transparent);mask-image:linear-gradient(transparent,#000 16%,#000 76%,transparent)}
+  .hero-top{order:0;padding-top:100px}
+  .hero-bot{order:2;flex-direction:column;align-items:stretch;padding-top:0}
+  .hero::after{display:none}
+  .cutcard{width:100%}
+  .times{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:480px){.hm{display:none}}
+@media (max-width:420px){.nav .btn{padding:0 16px}.logo{font-size:19px}.row{flex-direction:column}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}#petals{display:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#shop">Skip to the shop</a>
+<div class="concept">Concept site by <a href="../index.html">Northfold Studio</a> · Petal &amp; Stem is a fictional business</div>
+
+<svg class="defs" aria-hidden="true" focusable="false"><defs>
+<symbol id="pe" viewBox="-50 -50 100 100"><g fill="currentColor"><g opacity=".55"><ellipse cy="-26" rx="21" ry="24"/><ellipse cy="-26" rx="21" ry="24" transform="rotate(72)"/><ellipse cy="-26" rx="21" ry="24" transform="rotate(144)"/><ellipse cy="-26" rx="21" ry="24" transform="rotate(216)"/><ellipse cy="-26" rx="21" ry="24" transform="rotate(288)"/></g><g opacity=".85"><ellipse cy="-14" rx="15" ry="17" transform="rotate(36)"/><ellipse cy="-14" rx="15" ry="17" transform="rotate(108)"/><ellipse cy="-14" rx="15" ry="17" transform="rotate(180)"/><ellipse cy="-14" rx="15" ry="17" transform="rotate(252)"/><ellipse cy="-14" rx="15" ry="17" transform="rotate(324)"/></g></g><circle r="11" fill="#fff" opacity=".35"/><circle r="5" fill="currentColor"/></symbol>
+<symbol id="an" viewBox="-50 -50 100 100"><g fill="currentColor"><ellipse cy="-25" rx="17" ry="24"/><ellipse cy="-25" rx="17" ry="24" transform="rotate(60)"/><ellipse cy="-25" rx="17" ry="24" transform="rotate(120)"/><ellipse cy="-25" rx="17" ry="24" transform="rotate(180)"/><ellipse cy="-25" rx="17" ry="24" transform="rotate(240)"/><ellipse cy="-25" rx="17" ry="24" transform="rotate(300)"/></g><circle r="17" fill="none" stroke="#2f3530" stroke-width="3" stroke-dasharray="1.5 3.5"/><circle r="10" fill="#2f3530"/></symbol>
+<symbol id="ra" viewBox="-50 -50 100 100"><g fill="currentColor"><circle r="44" opacity=".5"/><circle r="34" opacity=".7"/><circle r="23" opacity=".92"/></g><circle r="23" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2"/><circle r="12" fill="#fff" opacity=".35"/><circle r="5" fill="#7d8b63"/></symbol>
+<symbol id="lf" viewBox="0 0 40 80"><path d="M20 79C3 58 3 22 20 1c17 21 17 57 0 78z" fill="currentColor"/><path d="M20 75V10" stroke="#fff" stroke-opacity=".3" stroke-width="1.2"/></symbol>
+</defs></svg>
+
+<div class="navbar">
+  <nav class="nav" aria-label="Main">
+    <a class="logo" href="#top"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#pe"/></svg><span>Petal <em>&amp;</em> Stem</span></a>
+    <div class="links"><a href="#shop">Shop</a><a href="#delivery">Delivery</a><a href="#subscriptions">Subscriptions</a><a href="#weddings">Weddings</a><a href="#visit">Visit</a></div>
+    <a class="btn sm mag" href="#shop">Order today</a>
+  </nav>
+</div>
+
+<main id="top">
+  <section class="hero" aria-labelledby="h1">
+    <div class="hero-media"><img src="img/petal-hero.jpg" width="1536" height="864" alt="A hand-tied bouquet of blush peonies, cream garden roses and green ranunculus, with petals floating around it on a soft sage background" fetchpriority="high"></div>
+    <canvas id="petals" aria-hidden="true"></canvas>
+    <div class="hero-top">
+      <p class="chip"><i></i>Florist<span class="hm"> &amp; flower studio</span> · Upper Street, N1</p>
+      <h1 id="h1"><span class="ln"><span>Hand-tied in Islington,</span></span><span class="ln"><span><em>delivered by tonight.</em></span></span></h1>
+    </div>
+    <div class="hero-bot">
+      <div>
+        <p class="pitch">Seasonal bouquets from British growers and the dawn flower market at Nine Elms, tied to order in our Upper Street studio and cycled across north London the same day.</p>
+        <div class="btns">
+          <a class="btn mag" href="#shop">Shop bouquets <svg class="ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
+          <a class="btn glass mag" href="#delivery">Same-day delivery</a>
+        </div>
+      </div>
+      <div class="cutcard">
+        <p class="ck"><span class="pulse"></span>Same-day cut-off</p>
+        <p data-cut>Order by 2pm Monday to Saturday (11am on Sunday) for delivery today.</p>
+        <a class="tl" href="#delivery">Check your postcode →</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee">
+    <div class="mq-track">
+      <div class="mq-g"><span>Peony</span><i></i><span>Ranunculus</span><i></i><span>Garden rose</span><i></i><span>Sweet pea</span><i></i><span>Anemone</span><i></i><span>Hellebore</span><i></i><span>Lisianthus</span><i></i><span>Astrantia</span><i></i><span>Scabiosa</span><i></i><span>Narcissus</span><i></i></div>
+      <div class="mq-g" aria-hidden="true"><span>Peony</span><i></i><span>Ranunculus</span><i></i><span>Garden rose</span><i></i><span>Sweet pea</span><i></i><span>Anemone</span><i></i><span>Hellebore</span><i></i><span>Lisianthus</span><i></i><span>Astrantia</span><i></i><span>Scabiosa</span><i></i><span>Narcissus</span><i></i></div>
+    </div>
+  </div>
+
+  <section class="sec" id="shop">
+    <div class="wrap">
+      <div class="head">
+        <div><p class="eyebrow">This week in the studio</p><h2 data-rise>Bouquets, <em>tied to order</em></h2></div>
+        <p class="lede" data-fade>Six designs this week, each in three sizes. Nothing is pre-made: we tie your bouquet when the order comes in, so it leaves the studio at its freshest.</p>
+      </div>
+      <div class="grid">
+        <article class="card" data-p="55,75,105">
+          <div class="ph"><i style="--s:225.9%;--x:46.7%;--y:50%" role="img" aria-label="Full bouquet of blush peonies, garden roses and ranunculus"></i><p class="tag">Signature</p></div>
+          <div class="cb">
+            <h3>The Upper Street</h3>
+            <p class="desc">Blush peonies, apricot garden roses, ivory ranunculus and silver-dollar eucalyptus.</p>
+            <fieldset class="seg"><legend class="sr">Size</legend><label><input type="radio" name="s1" value="0" checked><span>Classic</span></label><label><input type="radio" name="s1" value="1"><span>Deluxe</span></label><label><input type="radio" name="s1" value="2"><span>Grand</span></label></fieldset>
+            <div class="buy"><p class="price"><small>Classic</small>£<b>55</b></p><button class="btn sm add" type="button">Add to bag</button></div>
+            <p class="cmsg" role="status"></p>
+          </div>
+        </article>
+        <article class="card" data-p="60,85,120">
+          <div class="ph"><i style="--s:512%;--x:10.1%;--y:0%" role="img" aria-label="A single blush peony in full bloom"></i><p class="tag">Single variety</p></div>
+          <div class="cb">
+            <h3>Peony Cloud</h3>
+            <p class="desc">Nothing but Sarah Bernhardt peonies, opening from tight bud to full blush over five or six days.</p>
+            <fieldset class="seg"><legend class="sr">Size</legend><label><input type="radio" name="s2" value="0" checked><span>Classic</span></label><label><input type="radio" name="s2" value="1"><span>Deluxe</span></label><label><input type="radio" name="s2" value="2"><span>Grand</span></label></fieldset>
+            <div class="buy"><p class="price"><small>Classic</small>£<b>60</b></p><button class="btn sm add" type="button">Add to bag</button></div>
+            <p class="cmsg" role="status"></p>
+          </div>
+        </article>
+        <article class="card" data-p="45,65,90">
+          <div class="ph"><i style="--s:451.8%;--x:92.8%;--y:25.1%" role="img" aria-label="Ivory and pink ranunculus with drifting petals"></i><p class="tag">Seasonal</p></div>
+          <div class="cb">
+            <h3>Ranunculus &amp; Blush</h3>
+            <p class="desc">Ivory and pink ranunculus, spray roses, waxflower and a little astilbe for movement.</p>
+            <fieldset class="seg"><legend class="sr">Size</legend><label><input type="radio" name="s3" value="0" checked><span>Classic</span></label><label><input type="radio" name="s3" value="1"><span>Deluxe</span></label><label><input type="radio" name="s3" value="2"><span>Grand</span></label></fieldset>
+            <div class="buy"><p class="price"><small>Classic</small>£<b>45</b></p><button class="btn sm add" type="button">Add to bag</button></div>
+            <p class="cmsg" role="status"></p>
+          </div>
+        </article>
+        <article class="card" data-p="48,68,95">
+          <div class="ph"><i style="--s:480%;--x:3.3%;--y:53.9%" role="img" aria-label="A green ranunculus with eucalyptus leaves and a pink bloom"></i><p class="tag">Studio favourite</p></div>
+          <div class="cb">
+            <h3>Sage Hours</h3>
+            <p class="desc">Green ranunculus, white hellebores, pistachio foliage and eucalyptus. Calm, cool and long-lasting.</p>
+            <fieldset class="seg"><legend class="sr">Size</legend><label><input type="radio" name="s4" value="0" checked><span>Classic</span></label><label><input type="radio" name="s4" value="1"><span>Deluxe</span></label><label><input type="radio" name="s4" value="2"><span>Grand</span></label></fieldset>
+            <div class="buy"><p class="price"><small>Classic</small>£<b>48</b></p><button class="btn sm add" type="button">Add to bag</button></div>
+            <p class="cmsg" role="status"></p>
+          </div>
+        </article>
+        <article class="card" data-p="42,60,85">
+          <div class="ph ill" style="--bg:linear-gradient(160deg,#e3e8da,#c4cdb6)">
+            <svg viewBox="0 0 400 500" role="img" aria-label="Illustration of a white anemone bouquet in cream tissue">
+              <g fill="none" stroke="#71815f" stroke-width="2" stroke-linecap="round"><path d="M200 470L140 230M200 470L262 222M200 470L198 180M200 470L104 290M200 470L298 292M200 470L170 280M200 470L232 276"/></g>
+              <g color="#7d8f6a"><use href="#lf" x="70" y="250" width="34" height="68" transform="rotate(-50 87 284)"/><use href="#lf" x="296" y="246" width="34" height="68" transform="rotate(52 313 280)"/><use href="#lf" x="116" y="296" width="30" height="60" transform="rotate(-28 131 326)"/><use href="#lf" x="254" y="296" width="30" height="60" transform="rotate(30 269 326)"/></g>
+              <path d="M122 330Q200 354 278 330L214 470h-28z" fill="#f8f2e8"/><path d="M122 330Q200 354 278 330" fill="none" stroke="#d9cfbf" stroke-width="1.5"/><path d="M182 430h36" stroke="#c48d94" stroke-width="6" stroke-linecap="round"/>
+              <g color="#fdfaf4"><use href="#an" x="62" y="244" width="78" height="78"/><use href="#an" x="262" y="238" width="82" height="82"/><use href="#an" x="96" y="166" width="98" height="98"/><use href="#an" x="206" y="158" width="106" height="106"/><use href="#an" x="150" y="108" width="94" height="94"/></g>
+              <g color="#f3e3bd"><use href="#ra" x="168" y="236" width="62" height="62"/></g>
+              <g fill="#eec3c8"><circle cx="124" cy="150" r="6"/><circle cx="112" cy="162" r="5"/><circle cx="286" cy="150" r="6"/><circle cx="298" cy="164" r="4.5"/><circle cx="252" cy="104" r="5"/><circle cx="78" cy="236" r="4.5"/></g>
+            </svg>
+            <p class="tag">Winter</p>
+          </div>
+          <div class="cb">
+            <h3>Winter Whites</h3>
+            <p class="desc">White anemones with ink-dark centres, narcissi, ivory tulips and a blush of waxflower.</p>
+            <fieldset class="seg"><legend class="sr">Size</legend><label><input type="radio" name="s5" value="0" checked><span>Classic</span></label><label><input type="radio" name="s5" value="1"><span>Deluxe</span></label><label><input type="radio" name="s5" value="2"><span>Grand</span></label></fieldset>
+            <div class="buy"><p class="price"><small>Classic</small>£<b>42</b></p><button class="btn sm add" type="button">Add to bag</button></div>
+            <p class="cmsg" role="status"></p>
+          </div>
+        </article>
+        <article class="card" data-p="32,45,62">
+          <div class="ph ill" style="--bg:linear-gradient(160deg,#f8e8e3,#ecc9c4)">
+            <svg viewBox="0 0 400 500" role="img" aria-label="Illustration of a small blush posy wrapped in sage tissue">
+              <g fill="none" stroke="#7b8b68" stroke-width="2" stroke-linecap="round"><path d="M200 470L150 260M200 470L250 258M200 470L200 220M200 470L120 300M200 470L282 300"/></g>
+              <g color="#8a9a76"><use href="#lf" x="84" y="262" width="32" height="64" transform="rotate(-48 100 294)"/><use href="#lf" x="286" y="258" width="32" height="64" transform="rotate(50 302 290)"/><use href="#lf" x="226" y="130" width="26" height="52" transform="rotate(35 239 156)"/></g>
+              <path d="M118 320Q200 346 282 320L216 470h-32z" fill="#dfe6d4"/><path d="M118 320Q200 346 282 320" fill="none" stroke="#b9c4aa" stroke-width="1.5"/><path d="M182 424h36" stroke="#fffaf3" stroke-width="6" stroke-linecap="round"/>
+              <g color="#f6d2c6"><use href="#ra" x="244" y="232" width="82" height="82"/><use href="#ra" x="116" y="138" width="66" height="66"/></g>
+              <g color="#e897a2"><use href="#ra" x="84" y="228" width="80" height="80"/></g>
+              <g color="#fbefe7"><use href="#pe" x="222" y="142" width="94" height="94"/></g>
+              <g color="#f0aab4"><use href="#pe" x="136" y="170" width="128" height="128"/></g>
+              <g fill="#e9a3ad"><ellipse cx="300" cy="214" rx="8" ry="11" transform="rotate(30 300 214)"/><ellipse cx="96" cy="210" rx="7" ry="10" transform="rotate(-30 96 210)"/><ellipse cx="190" cy="132" rx="7" ry="10"/></g>
+            </svg>
+            <p class="tag">Small gift</p>
+          </div>
+          <div class="cb">
+            <h3>Canonbury Posy</h3>
+            <p class="desc">A hand-sized posy of whatever is best at market that morning. Sweet, quick and right for a bedside.</p>
+            <fieldset class="seg"><legend class="sr">Size</legend><label><input type="radio" name="s6" value="0" checked><span>Classic</span></label><label><input type="radio" name="s6" value="1"><span>Deluxe</span></label><label><input type="radio" name="s6" value="2"><span>Grand</span></label></fieldset>
+            <div class="buy"><p class="price"><small>Classic</small>£<b>32</b></p><button class="btn sm add" type="button">Add to bag</button></div>
+            <p class="cmsg" role="status"></p>
+          </div>
+        </article>
+      </div>
+      <p class="sizes" data-fade>Classic ≈ 15 stems · Deluxe ≈ 25 · Grand ≈ 40. Every bouquet travels in water, wrapped in recycled tissue, with a handwritten card.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="delivery" style="padding-top:0">
+    <div class="wrap two">
+      <div>
+        <p class="eyebrow">Delivery</p>
+        <h2 data-rise>Same-day, <em>by bicycle</em></h2>
+        <p class="lede" data-fade style="margin-top:22px">Our riders leave the studio at 2:30pm and again at 5pm. Order by 2pm Monday to Saturday, or 11am on Sunday, and your flowers arrive the same day across most of north and central London. Everywhere else in mainland UK gets next-day delivery by tracked courier.</p>
+        <ul class="facts" data-fade>
+          <li><b>£7.50</b><span>Same-day by cargo bike, inside our north London zone</span></li>
+          <li><b>£9.95</b><span>Next-day by tracked courier, mainland UK</span></li>
+          <li><b>Free</b><span>Click &amp; collect from the shop, ready from 10am</span></li>
+        </ul>
+      </div>
+      <div class="checker" data-fade>
+        <p class="cut"><span class="pulse"></span><span data-cut>Order by 2pm Monday to Saturday (11am on Sunday) for delivery today.</span></p>
+        <form id="pcForm" novalidate>
+          <label for="pc">Check your postcode</label>
+          <div class="row"><input id="pc" class="in" name="pc" autocomplete="postal-code" placeholder="e.g. N1 2AB" maxlength="9"><button class="btn mag" type="submit">Check</button></div>
+        </form>
+        <p id="pcOut" class="pc-out" role="status" aria-live="polite"></p>
+        <p class="note">Example coverage for this concept site. Same-day: N1, N4–N8, N16, N19, NW1, NW5, EC1, EC2, WC1, E2 and E8. Everywhere else: next-day.</p>
+        <div class="times"><div><b>2:00pm</b>Cut-off, Mon–Sat</div><div><b>11:00am</b>Cut-off, Sunday</div><div><b>3–8pm</b>Same-day window</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec subs panel" id="subscriptions">
+    <div class="wrap">
+      <div class="head">
+        <div><p class="eyebrow">Subscriptions</p><h2 data-rise>Fresh flowers, <em>every week</em></h2></div>
+        <div>
+          <p class="lede" data-fade>A standing order from the studio, chosen by us and delivered on the same day each week. Pause, skip or cancel online up to 48 hours before any delivery. No minimum term.</p>
+          <fieldset class="seg freq"><legend class="sr">Delivery frequency</legend><label><input type="radio" name="freq" value="w" checked><span>Weekly</span></label><label><input type="radio" name="freq" value="f"><span>Fortnightly</span></label></fieldset>
+        </div>
+      </div>
+      <div class="plans">
+        <article class="plan" data-w="30" data-f="34">
+          <p class="pn">The Posy</p>
+          <p class="pp">£<b>30</b><span class="per">per weekly delivery</span></p>
+          <p class="pd">A jam-jar posy for the kitchen table or a desk by the window.</p>
+          <ul><li>8–10 stems, seasonal mix</li><li>Tuesday or Friday delivery</li><li>Free delivery inside our bike zone</li></ul>
+          <button class="btn line" type="button" data-plan="The Posy">Choose the Posy</button>
+        </article>
+        <article class="plan ft" data-w="45" data-f="50">
+          <span class="badge">Studio pick</span>
+          <p class="pn">The Signature</p>
+          <p class="pp">£<b>45</b><span class="per">per weekly delivery</span></p>
+          <p class="pd">Our weekly hand-tied, designed to hold its shape in a vase for seven days.</p>
+          <ul><li>15–20 stems with a focal bloom</li><li>Care card and flower food</li><li>A glass vase with your first delivery</li><li>Free delivery inside our bike zone</li></ul>
+          <button class="btn" type="button" data-plan="The Signature">Choose the Signature</button>
+        </article>
+        <article class="plan" data-w="85" data-f="95">
+          <p class="pn">The Atelier</p>
+          <p class="pp">£<b>85</b><span class="per">per weekly delivery</span></p>
+          <p class="pd">A statement arrangement for hallways, studios, salons and restaurants.</p>
+          <ul><li>Designed for your space after a short call</li><li>Vessel loaned and swapped each visit</li><li>Monthly invoicing for businesses</li></ul>
+          <button class="btn line" type="button" data-plan="The Atelier">Choose the Atelier</button>
+        </article>
+      </div>
+      <p id="planMsg" class="fmsg" role="status"></p>
+    </div>
+  </section>
+
+  <section class="sec" id="weddings">
+    <div class="wrap wed">
+      <figure class="wimg"><i data-par role="img" aria-label="Close-up of cream peonies, apricot garden roses and green ranunculus"></i><figcaption>Bridal palette: blush, ivory &amp; sage</figcaption></figure>
+      <div>
+        <p class="eyebrow">Weddings &amp; events</p>
+        <h2 data-rise>For the days you’ll <em>keep</em></h2>
+        <p class="lede" data-fade style="margin-top:22px">We design for around thirty weddings a year, so each one gets a studio day of its own. Start with a consultation at the shop: bring a photo of the dress, a fabric swatch, anything, and we’ll build a palette around it. We also dress launches, supper clubs and restaurants across London every week.</p>
+        <ul class="prices" data-fade>
+          <li><span>Bridal bouquet</span><b>from £185</b></li>
+          <li><span>Bridesmaid posies</span><b>from £70</b></li>
+          <li><span>Buttonholes &amp; corsages</span><b>from £16</b></li>
+          <li><span>Table centrepieces</span><b>from £60</b></li>
+          <li><span>Ceremony arch &amp; installations</span><b>from £1,200</b></li>
+        </ul>
+        <p class="small">Full-wedding bookings start at £2,500. Consultations are on Tuesdays and Wednesdays, at the shop or by video call.</p>
+        <form class="enq" id="enqForm" novalidate>
+          <h3>Tell us about the day</h3>
+          <label>Name<input class="in" name="name" autocomplete="name"></label>
+          <label>Email<input class="in" name="email" type="email" autocomplete="email"></label>
+          <label>Date<input class="in" name="date" type="date"></label>
+          <label>Guests<input class="in" name="guests" inputmode="numeric" placeholder="e.g. 80"></label>
+          <label class="full">Flower budget<select class="in" name="budget"><option>Under £2,500</option><option>£2,500 – £5,000</option><option>£5,000 – £10,000</option><option>£10,000+</option><option>Not sure yet</option></select></label>
+          <div class="full"><button class="btn mag" type="submit">Send enquiry <svg class="ar" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
+          <p class="fmsg" id="enqMsg" role="status"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec visit panel" id="visit">
+    <div class="wrap two">
+      <div>
+        <p class="eyebrow">Visit the shop</p>
+        <h2 data-rise>Upper Street, <em>Islington</em></h2>
+        <p class="addr" data-fade>Upper Street, Islington<br>London N1</p>
+        <p class="lede" data-fade style="margin-top:14px">Between Angel and Highbury Corner, a short walk from Islington Green. Buckets of loose stems by the door, and we’ll tie anything you pick while you wait.</p>
+        <div class="contact"><a href="tel:+442079460318">020 7946 0318</a><a href="mailto:hello@petalandstem.example">hello@petalandstem.example</a></div>
+        <p class="status" id="status"><i></i><span>Open daily, see hours</span></p>
+      </div>
+      <div class="hcard" data-fade>
+        <h3>Opening hours</h3>
+        <ul class="hrs">
+          <li><span>Monday – Friday</span><span>8am – 7pm</span></li>
+          <li><span>Saturday</span><span>9am – 6pm</span></li>
+          <li><span>Sunday</span><span>10am – 4pm</span></li>
+          <li><span>Bank holidays</span><span>10am – 4pm</span></li>
+        </ul>
+        <h3>Same-day cut-off</h3>
+        <ul class="hrs">
+          <li><span>Monday – Saturday</span><span>2pm</span></li>
+          <li><span>Sunday</span><span>11am</span></li>
+        </ul>
+        <p class="note">Closed 25–26 December and 1 January. Orders placed after the cut-off go out next morning.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="fgrid">
+      <div><p class="eyebrow">Find us</p><p>Upper Street, Islington<br>London N1<br><a href="tel:+442079460318">020 7946 0318</a></p></div>
+      <div><p class="eyebrow">Hours</p><p>Mon – Fri 8am – 7pm<br>Sat 9am – 6pm · Sun 10am – 4pm<br>Same-day cut-off 2pm (Sun 11am)</p></div>
+      <div><p class="eyebrow">Explore</p><p class="flinks"><a href="#shop">Shop bouquets</a><a href="#subscriptions">Subscriptions</a><a href="#weddings">Weddings &amp; events</a><a href="#top">Back to top</a></p></div>
+    </div>
+    <p class="wordmark" aria-hidden="true">Petal <em>&amp;</em> Stem</p>
+    <div class="fbar"><span>Petal &amp; Stem · Islington, N1</span><span>Concept design by <a href="../index.html">Northfold Studio</a> · fictional business, demo content</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var d=document,W=window,html=d.documentElement,mm=W.matchMedia,
+RM=!!(mm&&mm("(prefers-reduced-motion: reduce)").matches),
+STATIC=navigator.webdriver===true||/[?&]static/.test(location.search),
+MOTION=!RM&&!STATIC,
+FINE=!!(mm&&mm("(hover: hover) and (pointer: fine)").matches);
+if(MOTION)html.classList.add("motion");
+function $(s,c){return(c||d).querySelector(s)}
+function $$(s,c){return Array.prototype.slice.call((c||d).querySelectorAll(s))}
+function say(el,label,msg){el.textContent="";if(label){var b=d.createElement("b");b.textContent=label;el.appendChild(b)}el.appendChild(d.createTextNode(msg))}
+var DEMO="Demo only: this is a concept site, so ";
+
+/* Size selectors update prices; "Add to bag" is demo-only */
+$$(".card").forEach(function(c){
+  var p=c.getAttribute("data-p").split(","),b=$(".price b",c),sm=$(".price small",c),m=$(".cmsg",c),nm=$("h3",c).textContent;
+  $$("input",c).forEach(function(i){i.addEventListener("change",function(){
+    b.textContent=p[+i.value];sm.textContent=i.nextElementSibling.textContent;
+    if(MOTION){b.classList.remove("bump");void b.offsetWidth;b.classList.add("bump")}})});
+  $(".add",c).addEventListener("click",function(){var s=$("input:checked",c);
+    m.textContent=DEMO+"the "+s.nextElementSibling.textContent+" "+nm+" (£"+p[+s.value]+") wasn’t added to a real bag."});
+});
+
+/* Subscription frequency + demo buttons */
+$$('input[name="freq"]').forEach(function(i){i.addEventListener("change",function(){
+  $$(".plan").forEach(function(pl){$(".pp b",pl).textContent=pl.getAttribute("data-"+i.value);$(".per",pl).textContent=i.value==="w"?"per weekly delivery":"per fortnightly delivery"})})});
+$$("[data-plan]").forEach(function(b){b.addEventListener("click",function(){
+  var f=$('input[name="freq"]:checked');$("#planMsg").textContent=DEMO+"no "+(f&&f.value==="f"?"fortnightly":"weekly")+" "+b.getAttribute("data-plan")+" subscription was started."})});
+
+/* Wedding enquiry */
+$("#enqForm").addEventListener("submit",function(e){e.preventDefault();$("#enqMsg").textContent=DEMO+"your enquiry wasn’t sent anywhere."});
+
+/* Postcode checker (example coverage) */
+var ZONE="N1 N4 N5 N6 N7 N8 N16 N19 NW1 NW5 EC1 EC2 WC1 E2 E8".split(" ");
+$("#pcForm").addEventListener("submit",function(e){e.preventDefault();
+  var o=$("#pcOut"),v=$("#pc").value.toUpperCase().replace(/\s+/g,""),m=v.match(/^([A-Z]{1,2}\d[A-Z\d]?)(\d[A-Z]{2})?$/);
+  if(!m)return say(o,"Example result","That doesn’t look like a UK postcode. Try something like N1 2AB.");
+  var pc=m[1]+(m[2]?" "+m[2]:""),base=m[1].replace(/^([A-Z]{1,2}\d+)[A-Z]$/,"$1");
+  if(ZONE.indexOf(base)>-1)say(o,"Example result · same-day","Good news: "+pc+" is inside our bike zone. Order by 2pm (11am on Sunday) and it arrives today, between 3pm and 8pm.");
+  else say(o,"Example result · next-day",pc+" is outside our bike zone, so we’d send it next-day by tracked courier (£9.95).");
+});
+
+/* Live cut-off countdown + open/closed, in London time */
+var HRS=[[600,960],[480,1140],[480,1140],[480,1140],[480,1140],[480,1140],[540,1080]];
+function now(){try{var o={};new Intl.DateTimeFormat("en-GB",{timeZone:"Europe/London",weekday:"short",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(new Date()).forEach(function(x){o[x.type]=x.value});
+  return{d:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(o.weekday),m:(+o.hour%24)*60+ +o.minute}}catch(e){var n=new Date();return{d:n.getDay(),m:n.getHours()*60+n.getMinutes()}}}
+function fmt(m){var h=Math.floor(m/60),mi=m%60;return(h%12||12)+(mi?":"+(mi<10?"0":"")+mi:"")+(h<12?"am":"pm")}
+function tick(){var t=now();if(t.d<0)return;var left=(t.d===0?660:840)-t.m,txt;
+  txt=left>0?"Order in the next "+(left>=60?Math.floor(left/60)+"h ":"")+left%60+"m for delivery today.":"Today’s same-day cut-off has passed. Order now for delivery tomorrow.";
+  $$("[data-cut]").forEach(function(e){e.textContent=txt});
+  var h=HRS[t.d],st=$("#status"),open=t.m>=h[0]&&t.m<h[1];
+  st.classList.toggle("closed",!open);
+  $("span",st).textContent=open?"Open now · until "+fmt(h[1]):"Closed now · opens "+(t.m<h[0]?fmt(h[0])+" today":fmt(HRS[(t.d+1)%7][0])+" tomorrow");}
+tick();setInterval(tick,30000);
+
+/* Nav gets more opaque once scrolled */
+var nav=$(".nav");
+function navState(){nav.classList.toggle("scrolled",(W.pageYOffset||html.scrollTop)>40)}
+addEventListener("scroll",navState,{passive:true});navState();
+
+/* Floating petals over the hero; they part gently around the pointer */
+function petals(){
+  var cv=$("#petals");if(!cv||!cv.getContext)return;
+  var ctx=cv.getContext("2d"),hero=$(".hero"),R=Math.min(W.devicePixelRatio||1,1.5),w=0,h=0,P=[],SP=[],mx=-1e4,my=-1e4,pvx=0,pvy=0,on=true,last=0;
+  [["#f9dade","#e8a9b2"],["#fdeee9","#efc3c2"],["#fffbf3","#e9dcc6"],["#e6ecd9","#b5c2a1"],["#fae1d8","#e6b0a4"]].forEach(function(c){
+    var s=d.createElement("canvas");s.width=s.height=64;var x=s.getContext("2d"),g=x.createLinearGradient(0,4,0,60);
+    g.addColorStop(0,c[0]);g.addColorStop(1,c[1]);x.fillStyle=g;x.beginPath();x.moveTo(32,60);
+    x.bezierCurveTo(4,46,6,12,26,4);x.quadraticCurveTo(32,10,38,4);x.bezierCurveTo(58,12,60,46,32,60);x.fill();SP.push(s)});
+  function mk(fresh){var s=10+Math.random()*18;return{x:fresh?Math.random()*w:Math.random()*w*1.1-w*.15,y:fresh?Math.random()*h:-30,s:s,
+    vx:.15+Math.random()*.35,vy:.18+s*.02+Math.random()*.2,r:Math.random()*6.28,vr:(Math.random()-.5)*.03,f:Math.random()*6.28,vf:.01+Math.random()*.03,
+    i:Math.random()*SP.length|0,a:.55+Math.random()*.4,ph:Math.random()*6.28,dx:0,dy:0}}
+  function size(){var nw=hero.offsetWidth,nh=hero.offsetHeight;if(!nw||!nh||(nw===w&&nh===h))return;w=nw;h=nh;
+    cv.width=Math.round(w*R);cv.height=Math.round(h*R);P=[];for(var i=0,n=Math.max(14,Math.min(38,w/40|0));i<n;i++)P.push(mk(true))}
+  hero.addEventListener("pointermove",function(e){var r=hero.getBoundingClientRect(),nx=e.clientX-r.left,ny=e.clientY-r.top;if(mx>-1e3){pvx=nx-mx;pvy=ny-my}mx=nx;my=ny});
+  hero.addEventListener("pointerleave",function(){mx=my=-1e4});
+  function frame(t){if(!on)return;var dt=last?Math.min(3,(t-last)/16.7):1;last=t;
+    ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,cv.width,cv.height);pvx*=.9;pvy*=.9;
+    for(var i=0;i<P.length;i++){var p=P[i],ex=p.x-mx,ey=p.y-my,dd=ex*ex+ey*ey;
+      if(dd<28900){var di=Math.sqrt(dd)||1,k=1-di/170;p.dx+=(ex/di*.16+pvx*.006)*k*dt;p.dy+=(ey/di*.16+pvy*.006)*k*dt;p.f+=.02*k}
+      p.dx*=.95;p.dy*=.95;
+      p.x+=(p.vx+Math.sin(t*.0007+p.ph)*.35+p.dx)*dt;p.y+=(p.vy+p.dy)*dt;p.r+=p.vr*dt;p.f+=p.vf*dt;
+      if(p.y>h+40||p.x>w+40||p.x<-60){P[i]=mk(false);continue}
+      var c=Math.abs(Math.cos(p.f));
+      ctx.setTransform(R,0,0,R,R*p.x,R*p.y);ctx.rotate(p.r);ctx.scale(1,.22+.78*c);
+      ctx.globalAlpha=p.a*(.7+.3*c);ctx.drawImage(SP[p.i],-p.s/2,-p.s/2,p.s,p.s)}
+    ctx.globalAlpha=1;requestAnimationFrame(frame)}
+  size();var to;addEventListener("resize",function(){clearTimeout(to);to=setTimeout(size,200)});
+  if("IntersectionObserver" in W)new IntersectionObserver(function(en){var v=en[0].isIntersecting;if(v&&!on){on=true;last=0;requestAnimationFrame(frame)}else if(!v)on=false}).observe(hero);
+  requestAnimationFrame(frame);
+}
+if(MOTION)petals();
+
+/* Split text into masked words (keeps <em>) */
+function split(el){var out=[];
+  (function walk(node){Array.prototype.slice.call(node.childNodes).forEach(function(n){
+    if(n.nodeType===3){var f=d.createDocumentFragment();n.nodeValue.split(/(\s+)/).forEach(function(t){if(!t)return;
+      if(/^\s+$/.test(t)){f.appendChild(d.createTextNode(" "));return}
+      var a=d.createElement("span"),b=d.createElement("span");a.className="sw";b.className="si";b.textContent=t;a.appendChild(b);f.appendChild(a);out.push(b)});
+      node.replaceChild(f,n)}else if(n.nodeType===1)walk(n)})})(el);
+  return out}
+
+function init(){
+  var G=W.gsap,ST=W.ScrollTrigger;
+  if(!MOTION||!G||!ST)return; /* static: page stays exactly as authored, fully visible */
+  G.registerPlugin(ST);ST.config({ignoreMobileResize:true});
+  html.classList.add("gsap");
+  var E="expo.out",lenis=null;
+
+  if(W.Lenis){try{lenis=new W.Lenis({lerp:.08,smoothWheel:true});lenis.on("scroll",ST.update);G.ticker.add(function(t){lenis.raf(t*1e3)});G.ticker.lagSmoothing(0)}catch(e){lenis=null}}
+  if(lenis)$$('a[href^="#"]').forEach(function(a){a.addEventListener("click",function(e){var hr=a.getAttribute("href"),t=hr==="#top"?0:d.querySelector(hr);if(t===null)return;e.preventDefault();lenis.scrollTo(t,{duration:1.8})})});
+
+  /* Fallback: whatever happens to rAF, force each tween's end state shortly after it should have finished */
+  function fb(tw,dl){setTimeout(function(){tw.progress(1)},(tw.totalDuration()+(dl||0)+.8)*1e3);return tw}
+  /* Reveal: content stays visible until the trigger fires, then hides and reveals in one go */
+  function reveal(tr,tg,from,to,start){ST.create({trigger:tr,start:start||"top 88%",once:true,onEnter:function(){fb(G.fromTo(tg,from,to),to.delay)}})}
+
+  /* 1. Orchestrated intro: image settles, headline rises line by line (skipped if libraries arrived late) */
+  if(performance.now()<4000){
+    fb(G.timeline({defaults:{ease:E}})
+      .fromTo(".hero-media img",{scale:1.14,opacity:0},{scale:1,opacity:1,duration:3.2,ease:"power3.out"},0)
+      .fromTo(".nav",{y:-28,opacity:0},{y:0,opacity:1,duration:1.4},.4)
+      .fromTo(".hero .chip",{y:14,opacity:0},{y:0,opacity:1,duration:1.2},.6)
+      .fromTo(".hero h1 .ln>span",{yPercent:112},{yPercent:0,duration:1.6,stagger:.18},.75)
+      .fromTo(".hero-bot>*",{y:28,opacity:0},{y:0,opacity:1,duration:1.4,stagger:.14},1.35)
+      .fromTo("#petals",{opacity:0},{opacity:1,duration:2,ease:"none"},1));
+  }
+
+  /* 2. Scroll parallax */
+  var hs={trigger:".hero",start:"top top",end:"bottom top",scrub:true};
+  G.to(".hero-media",{yPercent:12,ease:"none",scrollTrigger:hs});
+  G.to(".hero-top",{y:-80,ease:"none",scrollTrigger:{trigger:".hero",start:"top top",end:"bottom top",scrub:true}});
+  $$("[data-par]").forEach(function(el){G.fromTo(el,{yPercent:-6},{yPercent:6,ease:"none",scrollTrigger:{trigger:el.parentNode,start:"top bottom",end:"bottom top",scrub:true}})});
+
+  /* 3. Masked headings + soft fades */
+  $$("[data-rise]").forEach(function(el){reveal(el,split(el),{yPercent:115},{yPercent:0,duration:1.4,ease:E,stagger:.07})});
+  $$("[data-fade]").forEach(function(el){reveal(el,el,{y:30,opacity:0},{y:0,opacity:1,duration:1.3,ease:E},"top 92%")});
+
+  /* 4. Cards: clip-path image reveal, inner zoom-out, copy rises */
+  $$(".card").forEach(function(c,i){var dl=(i%3)*.12;
+    reveal(c,$(".ph",c),{clipPath:"inset(100% 0% 0% 0% round 18px)"},{clipPath:"inset(0% 0% 0% 0% round 18px)",duration:1.5,ease:"expo.inOut",delay:dl});
+    reveal(c,$(".ph>i,.ph>svg",c),{scale:1.35},{scale:1,duration:2,ease:E,delay:dl});
+    reveal(c,$$(".cb>*",c),{y:20,opacity:0},{y:0,opacity:1,duration:1,ease:"power3.out",stagger:.05,delay:dl+.35});
+  });
+  $$(".plan").forEach(function(p,i){reveal(p,p,{y:60,opacity:0},{y:0,opacity:1,duration:1.4,ease:E,delay:i*.1})});
+  reveal(".wimg",".wimg",{clipPath:"inset(0% 100% 0% 0% round 32px)"},{clipPath:"inset(0% 0% 0% 0% round 32px)",duration:1.8,ease:"expo.inOut"});
+  reveal(".foot",".wordmark",{yPercent:40,opacity:0},{yPercent:0,opacity:1,duration:1.6,ease:E},"top 90%");
+
+  /* 5. Hover tilt on bouquet cards + magnetic buttons (mouse/trackpad only) */
+  if(FINE){
+    $$(".card").forEach(function(c){
+      var rx=G.quickTo(c,"rotationX",{duration:.8,ease:"power3"}),ry=G.quickTo(c,"rotationY",{duration:.8,ease:"power3"});
+      G.set(c,{transformPerspective:1000});
+      c.addEventListener("pointermove",function(e){var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+        rx(-y*7);ry(x*9);c.style.setProperty("--gx",(x+.5)*100+"%");c.style.setProperty("--gy",(y+.5)*100+"%")});
+      c.addEventListener("pointerleave",function(){rx(0);ry(0)});
+    });
+    $$(".mag").forEach(function(b){
+      var x=G.quickTo(b,"x",{duration:.7,ease:"power3"}),y=G.quickTo(b,"y",{duration:.7,ease:"power3"});
+      b.addEventListener("pointermove",function(e){var r=b.getBoundingClientRect();x((e.clientX-r.left-r.width/2)*.3);y((e.clientY-r.top-r.height/2)*.4)});
+      b.addEventListener("pointerleave",function(){x(0);y(0)});
+    });
+  }
+
+  if(d.fonts&&d.fonts.ready)d.fonts.ready.then(function(){ST.refresh()});
+  addEventListener("load",function(){ST.refresh()});
+}
+if(d.readyState==="loading")d.addEventListener("DOMContentLoaded",init);else init();
+})();
+</script>
+</body>
+</html>

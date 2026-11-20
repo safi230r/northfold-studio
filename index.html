@@ -117,6 +117,12 @@ section.block{padding-block:112px 0}
 .o2{left:7%;top:50%;transform:translateY(-50%);font-family:var(--body);font-weight:800;text-transform:uppercase;letter-spacing:-.01em;font-size:clamp(1.1rem,2vw,1.6rem);color:#f4ece4}
 .o2 b{display:block;color:#ff9a5a}
 .o3{left:0;right:0;top:6%;text-align:center;font-family:"Anton",Impact,"Arial Narrow Bold",sans-serif;font-size:clamp(3rem,7vw,5.6rem);letter-spacing:.01em;color:transparent;background:linear-gradient(180deg,#fff,#d7c4ff 60%,rgba(139,92,246,.4));-webkit-background-clip:text;background-clip:text;mix-blend-mode:screen}
+.o4{left:7%;top:12%;font-family:var(--display);font-size:clamp(1.4rem,2.6vw,2.1rem);color:#fff4ea}
+.o4 em{color:#ff8a3d}
+.o5{left:0;right:0;top:9%;text-align:center;font-family:var(--display);font-size:clamp(1.3rem,2.3vw,1.8rem);color:#2f3d2c}
+.o5 em{color:#b5566e}
+.o6{left:7%;top:50%;transform:translateY(-50%);font-family:"Anton",Impact,sans-serif;text-transform:uppercase;font-size:clamp(1.8rem,3.4vw,2.8rem);color:#f2f2ee;letter-spacing:.01em}
+.o6 b{display:block;font-weight:400;color:#c6ff3d}
 .m1{background:#3a2418;color:#f6e7d4;background-image:radial-gradient(circle at 85% 20%,#c9763e55,transparent 45%)}
 .m1 .n{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.15em;text-transform:uppercase;opacity:.8}
 .m1 .big{font-family:var(--display);font-style:italic;font-size:2.6rem;line-height:.9;margin-top:auto}
@@ -143,6 +149,19 @@ section.block{padding-block:112px 0}
 
 /* Menu-board pricing */
 .board{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 64px}
+.board.three{grid-template-columns:repeat(3,minmax(0,1fr));gap:0 40px}
+.gh{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);padding-bottom:12px;border-bottom:1px solid var(--gold);margin:0}
+.board.three .item{grid-template-columns:minmax(0,1fr) auto;padding-block:22px}
+.board.three .item .dots{display:none}
+.board.three .item h3{font-size:clamp(1.3rem,1.8vw,1.6rem)}
+.bundle{display:flex;justify-content:space-between;align-items:center;gap:24px 48px;flex-wrap:wrap;padding:32px clamp(20px,4vw,44px);margin-bottom:48px;border-radius:24px;border:1px solid var(--gold);background:radial-gradient(600px circle at 90% 0%,var(--glow),transparent 60%),var(--surface)}
+.bundle-copy{flex:1 1 420px;min-width:0;display:flex;flex-direction:column;gap:10px}
+.bundle h3{font-size:clamp(2rem,4vw,3rem);font-style:italic}
+.bundle p{color:var(--muted);max-width:40em}
+.bundle-price{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.bundle-price .was{font-family:var(--mono);font-size:13px;color:var(--muted);text-decoration:line-through}
+.bundle-price .now{font-family:var(--display);font-size:clamp(3rem,6vw,4.5rem);line-height:1;color:var(--gold);font-variant-numeric:tabular-nums}
+.honest{margin-top:32px;max-width:46em;color:var(--muted);font-size:14px;padding-left:16px;border-left:2px solid var(--gold)}
 .item{display:grid;grid-template-columns:minmax(0,auto) 1fr auto;align-items:baseline;gap:12px;padding-block:28px;border-bottom:1px solid var(--line)}
 .item h3{font-size:clamp(1.5rem,2.4vw,2rem);font-style:italic}
 .item .dots{border-bottom:2px dotted var(--line);transform:translateY(-6px)}
@@ -174,7 +193,8 @@ footer .mono{font-family:var(--mono)}
 @media (max-width:900px){
   .work{grid-template-columns:minmax(0,1fr)}
   .hero .sub{grid-template-columns:minmax(0,1fr);gap:32px}
-  .board{grid-template-columns:minmax(0,1fr)}
+  .board,.board.three{grid-template-columns:minmax(0,1fr);gap:40px}
+  .bundle-price{align-items:flex-start}
   .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (max-width:520px){
@@ -197,7 +217,7 @@ footer .mono{font-family:var(--mono)}
       <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="10" fill="none" stroke="var(--gold)" stroke-width="1.5"/><path d="M11 29V11l18 18V11" fill="none" stroke="var(--gold)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <b>Northfold</b>
     </a>
-    <div class="links"><a href="#work">Work</a><a href="#prices">Prices</a><a href="#process">Process</a><a href="#contact">Contact</a></div>
+    <div class="links"><a href="#work">Work</a><a href="#prices">Services</a><a href="#process">Process</a><a href="#contact">Contact</a></div>
   </nav>
 </div>
 
@@ -208,7 +228,7 @@ footer .mono{font-family:var(--mono)}
     <h1>Open all hours,<br><em>online.</em></h1>
     <div class="sub">
       <div>
-        <p class="lede">I design and build websites, booking pages and Google profiles for London's independent cafés, barbers and trades. Built in days and priced for the high street, so customers find you before they find the chain next door.</p>
+        <p class="lede">I design and build websites, booking pages, Google Business Profiles and local SEO for London's independent cafés, restaurants, barbers and trades. Built in days and priced for the high street, so customers find you before they find the chain next door.</p>
         <div class="cta-row">
           <a class="btn primary" href="#contact">Book a free mock-up →</a>
           <a class="btn ghost" href="#work">See the work</a>
@@ -234,7 +254,7 @@ footer .mono{font-family:var(--mono)}
   <section class="block" id="work">
     <div class="head">
       <h2>Window <em>displays.</em></h2>
-      <p>Concept sites built to show what your business could look like online. Each one is designed around the thing customers need most from that kind of shop.</p>
+      <p>Six concept sites built to show what your business could look like online. Each one is designed around the thing customers need most from that kind of business.</p>
     </div>
     <div class="work">
       <article class="piece">
@@ -269,28 +289,87 @@ footer .mono{font-family:var(--mono)}
         <div class="chips"><span>Online booking</span><span>Deposits</span><span>Gallery</span></div>
         <a class="visit" href="sites/studionine.html">Open the full site →</a>
       </article>
+
+      <article class="piece">
+        <div class="browser" aria-hidden="true">
+          <div class="bar"><i></i><i></i><i></i><span>emberandsalt.co.uk</span></div>
+          <div class="shot"><img src="sites/img/ember-hero-thumb.jpg" alt="" loading="lazy"><span class="ov o4">Cooked over<br><em>fire.</em></span></div>
+        </div>
+        <div class="meta"><h3>Ember &amp; Salt</h3><span class="tag">Concept · E8</span></div>
+        <p>A charcoal grill that fills up on weekends but sits half empty on Tuesdays. Table booking in three taps, a menu with real prices, and group feasts that sell themselves.</p>
+        <div class="chips"><span>Table booking</span><span>Menu</span><span>Private dining</span></div>
+        <a class="visit" href="sites/ember.html">Open the full site →</a>
+      </article>
+
+      <article class="piece">
+        <div class="browser" aria-hidden="true">
+          <div class="bar"><i></i><i></i><i></i><span>petalandstem.london</span></div>
+          <div class="shot"><img src="sites/img/petal-hero-thumb.jpg" alt="" loading="lazy"><span class="ov o5">Flowers, <em>same day.</em></span></div>
+        </div>
+        <div class="meta"><h3>Petal &amp; Stem</h3><span class="tag">Concept · N1</span></div>
+        <p>A florist whose orders arrive by phone and get lost on sticky notes. A bouquet shop with sizes and prices, a same-day postcode checker and weekly subscriptions.</p>
+        <div class="chips"><span>Online shop</span><span>Delivery checker</span><span>Subscriptions</span></div>
+        <a class="visit" href="sites/petal.html">Open the full site →</a>
+      </article>
+
+      <article class="piece">
+        <div class="browser" aria-hidden="true">
+          <div class="bar"><i></i><i></i><i></i><span>forge.training</span></div>
+          <div class="shot"><img src="sites/img/forge-hero-thumb.jpg" alt="" loading="lazy"><span class="ov o6">Built<br><b>here.</b></span></div>
+        </div>
+        <div class="meta"><h3>Forge</h3><span class="tag">Concept · SE16</span></div>
+        <p>A personal-training studio under the railway arches competing with big-box gyms. Programmes with clear prices, a live timetable and a free taster session that books itself.</p>
+        <div class="chips"><span>Timetable</span><span>Taster booking</span><span>Local SEO</span></div>
+        <a class="visit" href="sites/forge.html">Open the full site →</a>
+      </article>
     </div>
   </section>
 
   <section class="block" id="prices">
     <div class="head">
       <h2>The <em>menu.</em></h2>
-      <p>Fixed prices, no surprises. You see a free mock-up of your site before you pay anything.</p>
+      <p>Websites, Google and local SEO, all at fixed prices. You see a free mock-up of your site before you pay anything.</p>
     </div>
-    <div class="board">
-      <div>
-        <div class="item"><h3>Google profile tune-up</h3><span class="dots"></span><span class="price">£60</span>
-          <p>Correct hours, proper photos, menu or services listed, review replies set up. The fastest way to show up on Maps.</p></div>
-        <div class="item star"><h3>Shopfront site</h3><span class="dots"></span><span class="price">£150</span>
-          <p>A fast one-page site: who you are, what you sell, prices, opening hours, map and contact. Live in 3 days.</p></div>
+    <div class="bundle">
+      <div class="bundle-copy">
+        <span class="eyebrow">Most booked</span>
+        <h3>The Get Found bundle</h3>
+        <p>A shopfront site, a fully tuned Google Business Profile and the local SEO starter, done together in one week. Everything a high-street business needs to show up when someone nearby searches.</p>
       </div>
-      <div>
+      <div class="bundle-price"><span class="was">£330 separately</span><span class="now">£250</span></div>
+    </div>
+    <div class="board three">
+      <div class="grp">
+        <p class="gh">Websites</p>
+        <div class="item"><h3>Shopfront site</h3><span class="dots"></span><span class="price">£150</span>
+          <p>A fast one-page site: who you are, what you sell, prices, opening hours, map and contact. Live in 3 days.</p></div>
         <div class="item"><h3>Site + bookings</h3><span class="dots"></span><span class="price">£300</span>
-          <p>Everything in the shopfront site, plus online booking or order-ahead so customers stop ringing at busy times.</p></div>
+          <p>Everything in the shopfront site, plus online booking, table reservations or order-ahead.</p></div>
+        <div class="item"><h3>Small online shop</h3><span class="dots"></span><span class="price">£450</span>
+          <p>Up to 20 products, card payments, delivery or click-and-collect, and stock you can update from your phone.</p></div>
+      </div>
+      <div class="grp">
+        <p class="gh">Get found on Google</p>
+        <div class="item"><h3>Google Business Profile</h3><span class="dots"></span><span class="price">£60</span>
+          <p>Set up or fix your profile: right category, hours, photos, services or menu, booking link and Q&amp;A. The fastest way onto Google Maps.</p></div>
+        <div class="item"><h3>Local SEO starter</h3><span class="dots"></span><span class="price">£120</span>
+          <p>Local keyword research, page titles and descriptions, business schema markup, sitemap and Google Search Console set up.</p></div>
+        <div class="item"><h3>Listings clean-up</h3><span class="dots"></span><span class="price">£80</span>
+          <p>The same name, address and phone on Apple Maps, Bing Places, Facebook, Yell, Yelp and TripAdvisor, so Google trusts your details.</p></div>
+        <div class="item"><h3>Review booster</h3><span class="dots"></span><span class="price">£45</span>
+          <p>Counter and table QR cards that open your Google review page, plus reply templates so every review gets a quick answer.</p></div>
+      </div>
+      <div class="grp">
+        <p class="gh">Grow every month</p>
+        <div class="item"><h3>Monthly local SEO</h3><span class="dots"></span><span class="price">£60<small> /mo</small></span>
+          <p>Weekly Google posts, fresh photos, review replies and a plain-English monthly report on calls, direction requests and searches.</p></div>
+        <div class="item"><h3>Social media setup</h3><span class="dots"></span><span class="price">£60</span>
+          <p>Instagram and Facebook profiles set up properly: bio, highlights, opening hours and a link straight to bookings.</p></div>
         <div class="item"><h3>Care plan</h3><span class="dots"></span><span class="price">£25<small> /mo</small></span>
           <p>Menu and price changes, seasonal offers, holiday hours and hosting handled for you. Cancel any month.</p></div>
       </div>
     </div>
+    <p class="honest">No one can honestly promise you the top spot on Google. I work on what Google says decides local results (relevance, distance and prominence) and show you each month what changed.</p>
   </section>
 
   <section class="block" id="process">
